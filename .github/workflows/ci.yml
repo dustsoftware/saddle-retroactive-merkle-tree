@@ -1,0 +1,27 @@
+name: CI
+
+on:
+  push:
+    branches: [master]
+  pull_request:
+    branches: [master]
+
+jobs:
+  test:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v2
+      - uses: actions/cache@v2
+        with:
+          path: ~/.npm
+          key: ${{ runner.os }}-node-${{ hashFiles('**/package-lock.json') }}
+          restore-keys: |
+            ${{ runner.os }}-node-
+      - uses: actions/setup-node@v2
+        with:
+          node-version: "12"
+      # fix for forcing git to use https when pulling deps
+      - run: 'git config --global --replace-all url."https://github.com/".insteadOf ssh://git@github.com/'
+      - run: npm ci
+      - run: npm run generate-merkle-root:example -- -o ./output/results-${{ github.sha }}.json
+      - run: npm run verify-merkle-root -- -i ./output/results-${{ github.sha }}.json
