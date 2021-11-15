@@ -1,7 +1,7 @@
 // Copied and modified from https://github.com/Uniswap/merkle-distributor
 
 import { program } from "commander";
-import * as fs from "fs";
+import * as fs from "fs-extra";
 import { parseBalanceMap } from "../src/parse-balance-map";
 
 program
@@ -22,16 +22,16 @@ const json = JSON.parse(fs.readFileSync(options.input, { encoding: "utf8" }));
 if (typeof json !== "object") throw new Error("Invalid JSON");
 
 const merkleTreeInfo = parseBalanceMap(json);
-const output = JSON.stringify(merkleTreeInfo);
 
 let path = `output/results-${Date.now()}.json`;
 if (options.output) {
   path = options.output;
 }
 
-const formattedOutput = JSON.stringify(merkleTreeInfo, null, 4);
-fs.writeFile(path, formattedOutput, function (err) {
+// const formattedOutput = JSON.stringify(merkleTreeInfo, null, 4);
+
+fs.outputJson(path, merkleTreeInfo, (err) => {
   if (err) {
     console.log(err);
   }
-});
+})
