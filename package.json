@@ -9,6 +9,7 @@
     "verify-merkle-root": "ts-node scripts/verify-merkle-root.ts"
   },
   "devDependencies": {
+    "@types/fs-extra": "^9.0.13",
     "commander": "^8.1.0",
     "ethereum-waffle": "^3.4.0",
     "ethereumjs-util": "^7.1.0",
@@ -26,5 +27,8 @@
   "bugs": {
     "url": "https://github.com/saddle-finance/saddle-allowlist-merkle-tree/issues"
   },
-  "homepage": "https://github.com/saddle-finance/saddle-allowlist-merkle-tree#readme"
+  "homepage": "https://github.com/saddle-finance/saddle-allowlist-merkle-tree#readme",
+  "dependencies": {
+    "fs-extra": "^7.0.1"
+  }
 }
